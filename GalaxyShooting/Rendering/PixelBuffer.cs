@@ -20,6 +20,10 @@ namespace GalaxyShooting.Rendering
 
             buffer = new PixelInfo[screenSizeX, screenSizeY];
 
+            for (int y = 0; y < screenSizeY; y++)
+                for (int x = 0; x < screenSizeX; x++)
+                    buffer[x, y] = new PixelInfo();
+
             ClearBuffer();
         }
 
