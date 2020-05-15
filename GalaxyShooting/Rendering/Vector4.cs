@@ -1,4 +1,6 @@
-﻿namespace GalaxyShooting.Rendering
+﻿using System;
+
+namespace GalaxyShooting.Rendering
 {
     public struct Vector4
     {
@@ -14,6 +16,18 @@
             Z = z;
             W = w;
         }
+        public Vector4(Vector3 xyz, double w)
+        {
+            X = xyz.X;
+            Y = xyz.Y;
+            Z = xyz.Z;
+            W = w;
+        }
+
+        public Vector3 HomogeneousToXYZ()
+        {
+            return new Vector3(X / W, Y / W, Z / W);
+        }
 
         public static Vector4 operator +(Vector4 lhs, Vector4 rhs)
         {
@@ -23,5 +37,6 @@
                 lhs.Z + rhs.Z,
                 lhs.W + rhs.W);
         }
+
     }
 }
