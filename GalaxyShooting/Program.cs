@@ -1,4 +1,6 @@
 ﻿using GalaxyShooting.Logic;
+using System;
+using System.Text;
 
 namespace GalaxyShooting
 {
@@ -6,6 +8,7 @@ namespace GalaxyShooting
     {
         private static void Main()
         {
+            Console.OutputEncoding = Encoding.UTF8;
             GameLoopManager.Start(new TestGameLoop());
         }
     }

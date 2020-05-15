@@ -16,7 +16,7 @@ namespace GalaxyShooting.Logic
             // 카메라 구현 후에 camera 테스트를 위해 객체 생성을 해야 함
             // @moyamong
 
-            renderer = new WireFrameRenderer(160, 80);
+            renderer = new WireFrameRenderer(40, 40);
             objects = new List<GameObject>
             {
                 new RenderTestObject()

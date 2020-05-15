@@ -14,7 +14,7 @@ namespace GalaxyShooting.Logic
             while (true)
             {
                 Loop();
-                Thread.Sleep(TimeSpan.FromMilliseconds(1 / 60.0));
+                Thread.Sleep(TimeSpan.FromMilliseconds(50));
             }
         }
 

@@ -38,5 +38,9 @@ namespace GalaxyShooting.Rendering
         {
             // TODO: do depth testing
         }
+        public ConsoleColor GetPixel(int x, int y)
+        {
+            return buffer[x, y].Color;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
 
 namespace GalaxyShooting.Rendering
 {
@@ -9,10 +9,10 @@ namespace GalaxyShooting.Rendering
     /// </summary>
     public sealed class WireFrameRenderer
     {
-        private int screenSizeX;
-        private int screenSizeY;
+        private readonly int screenSizeX;
+        private readonly int screenSizeY;
 
-        private List<Triangle> triangleList;
+        private readonly List<Triangle> triangleList;
 
         private PixelBuffer foregroundBuffer;
         private PixelBuffer backgroundBuffer;
@@ -82,6 +82,57 @@ namespace GalaxyShooting.Rendering
         /// </summary>
         private void UpdateScreen()
         {
+            const int xPerChar = 2;
+            const int yPerChar = 4;
+            const int BrailleBase = 0x2800;
+
+            Console.Clear();
+
+            for (int screenY = 0; screenY * yPerChar < screenSizeY; screenY++)
+            {
+                for (int screenX = 0; screenX * xPerChar < screenSizeX; screenX++)
+                {
+                    // braille:
+                    // 0 3
+                    // 1 4
+                    // 2 5
+                    // 6 7
+
+                    int chVal = BrailleBase;
+
+                    for (int dx = 0; dx < xPerChar; dx++)
+                    {
+                        int bufferX = screenX * xPerChar + dx;
+                        if (bufferX >= screenSizeX)
+                            break;
+
+                        for (int dy = 0; dy < yPerChar - 1; dy++)
+                        {
+                            int bufferY = screenY * yPerChar + dy;
+                            if (bufferY >= screenSizeY)
+                                break;
+
+                            if (foregroundBuffer.GetPixel(bufferX, bufferY) != ConsoleColor.Black)
+                                chVal += 1 << (3 * dx + dy);
+                        }
+
+                        {
+                            int bufferY = screenY * yPerChar + 3;
+                            if (bufferY >= screenSizeY)
+                                continue;
+
+                            if (foregroundBuffer.GetPixel(bufferX, bufferY) != ConsoleColor.Black)
+                                chVal += 1 << (6 + dx);
+                        }
+                    }
+
+                    // TODO:
+                    // write this to buffer, and update console prompt only pixel which needs.
+                    Debug.Assert(0x2800 <= chVal && chVal <= 0x28FF);
+                    Console.Write((Char)chVal);
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
