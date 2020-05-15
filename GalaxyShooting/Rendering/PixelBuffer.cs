@@ -36,7 +36,7 @@ namespace GalaxyShooting.Rendering
 
         public void SetPixel(int x, int y, ConsoleColor color, double depth)
         {
-            // TODO: do depth testing
+            buffer[x, y].Color = color;
         }
         public ConsoleColor GetPixel(int x, int y)
         {
