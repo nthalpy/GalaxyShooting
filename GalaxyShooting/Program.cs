@@ -9,6 +9,8 @@ namespace GalaxyShooting
         private static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
+
+            //GameLoopManager.Start(new GameTitleLoop());
             GameLoopManager.Start(new TestGameLoop());
         }
     }
