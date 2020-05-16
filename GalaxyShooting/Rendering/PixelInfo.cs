@@ -12,7 +12,7 @@ namespace GalaxyShooting.Rendering
         public void Clear()
         {
             Color = ConsoleColor.Black;
-            Depth = -1;
+            Depth = 1;
         }
     }
 }
