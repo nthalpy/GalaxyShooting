@@ -46,10 +46,10 @@
     <Compile Include="Logic\GameLoop.cs" />
     <Compile Include="Logic\GameLoopManager.cs" />
     <Compile Include="Logic\GameObject.cs" />
-    <Compile Include="Logic\InputManager.cs" />
+    <Compile Include="Input\InputManager.cs" />
     <Compile Include="Logic\RenderTestObject.cs" />
     <Compile Include="Logic\TestGameLoop.cs" />
-    <Compile Include="Logic\VK.cs" />
+    <Compile Include="Input\VK.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\Camera.cs" />

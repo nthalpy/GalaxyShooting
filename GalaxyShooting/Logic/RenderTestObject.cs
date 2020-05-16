@@ -1,4 +1,5 @@
-﻿using GalaxyShooting.Rendering;
+﻿using GalaxyShooting.Input;
+using GalaxyShooting.Rendering;
 using System;
 
 namespace GalaxyShooting.Logic

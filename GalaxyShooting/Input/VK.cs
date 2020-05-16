@@ -1,4 +1,4 @@
-﻿namespace GalaxyShooting.Logic
+﻿namespace GalaxyShooting.Input
 {
     public enum VK : int
     {

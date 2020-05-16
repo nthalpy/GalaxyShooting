@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace GalaxyShooting.Logic
+namespace GalaxyShooting.Input
 {
     public static class InputManager
     {
