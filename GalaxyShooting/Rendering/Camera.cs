@@ -1,6 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using GalaxyShooting.Input;
+﻿using GalaxyShooting.Input;
+using System;
 
 namespace GalaxyShooting.Rendering
 {
@@ -18,10 +17,6 @@ namespace GalaxyShooting.Rendering
         private readonly double verticalFOV;
         private readonly double zNear;
         private readonly double zFar;
-
-        double yaw = 0;
-        double pitch = 0;
-        double roll = 0;
 
         double speed = 0.5;
 
@@ -56,22 +51,24 @@ namespace GalaxyShooting.Rendering
             return perspectiveMatrix;
         }
 
-
         public void Update()
         {
+            double yaw = 0;
+            double pitch = 0;
+            double roll = 0;
 
-            if (InputManager.IsPressed(VK.KEY_U))
-                pitch += Math.PI / 30;
-            if (InputManager.IsPressed(VK.KEY_O))
-                pitch -= Math.PI / 30;
+            if (InputManager.IsPressed(VK.LEFT))
+                pitch += Math.PI / 120;
+            if (InputManager.IsPressed(VK.RIGHT))
+                pitch -= Math.PI / 120;
             if (InputManager.IsPressed(VK.KEY_J))
-                yaw -= Math.PI / 30;
+                yaw -= Math.PI / 120;
             if (InputManager.IsPressed(VK.KEY_L))
-                yaw += Math.PI / 30;
-            if (InputManager.IsPressed(VK.KEY_K))
-                roll -= Math.PI / 30;
-            if (InputManager.IsPressed(VK.KEY_I))
-                roll += Math.PI / 30;
+                yaw += Math.PI / 120;
+            if (InputManager.IsPressed(VK.DOWN))
+                roll -= Math.PI / 120;
+            if (InputManager.IsPressed(VK.UP))
+                roll += Math.PI / 120;
 
             //Debug.WriteLine(pitch);
 
@@ -79,7 +76,7 @@ namespace GalaxyShooting.Rendering
             Quaternion rotY = Quaternion.AxisAngle(new Vector3(0, 1, 0), pitch);
             Quaternion rotZ = Quaternion.AxisAngle(new Vector3(0, 0, 1), yaw);
 
-            currentRotationMatrix = Matrix4x4.CreateRotationMatrix(rotZ) * Matrix4x4.CreateRotationMatrix(rotY) * Matrix4x4.CreateRotationMatrix(rotX);
+            currentRotationMatrix = Matrix4x4.CreateRotationMatrix(rotY) * Matrix4x4.CreateRotationMatrix(rotX) * currentRotationMatrix;
 
             Vector4 direction4 = currentRotationMatrix * new Vector4(0, 0, -1, 1);
             Vector3 direction = new Vector3(direction4.X * speed, direction4.Y * speed, -direction4.Z * speed);

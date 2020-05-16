@@ -1,4 +1,5 @@
 ﻿using GalaxyShooting.Rendering;
+using System;
 using System.Collections.Generic;
 
 namespace GalaxyShooting.Logic
@@ -12,12 +13,19 @@ namespace GalaxyShooting.Logic
 
         public TestGameLoop()
         {
-            camera = new Camera(2, 90, 0.1, 100);
+            camera = new Camera(2, 45, 0.1, 100);
             renderer = new WireFrameRenderer(320, 160);
-            objects = new List<GameObjectBase>
+            objects = new List<GameObjectBase>();
+
+            Random rd = new Random();
+
+            for (int idx = 0; idx < 20; idx++)
             {
-                new RenderTestObject()
-            };
+                RenderTestObject obj = new RenderTestObject();
+                obj.Position = new Vector3(50 * (2 * rd.NextDouble() - 1), 50 * (2 * rd.NextDouble() - 1), 50 * (2 * rd.NextDouble() - 1));
+
+                objects.Add(obj);
+            }
         }
 
         public override void Update()

@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System;
+﻿using System;
+using System.Diagnostics;
 
 namespace GalaxyShooting.Rendering
 {
@@ -22,9 +22,14 @@ namespace GalaxyShooting.Rendering
             return new Vector4(this, 1);
         }
 
+        public double Length()
+        {
+            return Math.Sqrt(X * X + Y * Y + Z * Z);
+        }
+
         public static Vector3 Normalize(Vector3 vec)
         {
-            double size = Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y + vec.Z * vec.Z);
+            double size = vec.Length();
             return new Vector3(vec.X / size, vec.Y / size, vec.Z / size);
         }
 

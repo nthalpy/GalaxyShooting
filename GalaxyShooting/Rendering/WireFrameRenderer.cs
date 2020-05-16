@@ -94,6 +94,9 @@ namespace GalaxyShooting.Rendering
 
             depth0 += (depth3 - depth2) / r;
 
+            if (r > 1000)
+                return;
+
             for (int i = 0; i < r - 2; i++)
             { //inner space
                 if (xDiff != 0)
@@ -128,6 +131,8 @@ namespace GalaxyShooting.Rendering
 
                 depth4 += (depth0 - depth1) / rBlank;
 
+                if (rBlank > 1000)
+                    return;
                 for (int j = 0; j < rBlank - 2; j++)
                 {
                     if (xBlankDiff != 0)
@@ -147,6 +152,7 @@ namespace GalaxyShooting.Rendering
                     backgroundBuffer.SetPixel(xBlank, screenSizeY - 1 - yBlank, ConsoleColor.Black, depth4);
                 }
             }
+
             RenderLine(a, b);
             RenderLine(b, c);
             RenderLine(a, c);
@@ -154,8 +160,6 @@ namespace GalaxyShooting.Rendering
 
         private void RenderLine(Vector3 a, Vector3 b)
         {
-            //I ignored z value
-            //@moyamong
             int x1 = (int)Math.Round(a.X * screenSizeX / 2 + screenSizeX / 2);
             int x2 = (int)Math.Round(b.X * screenSizeX / 2 + screenSizeX / 2);
             int y1 = (int)Math.Round(a.Y * screenSizeY / 2 + screenSizeY / 2);
@@ -176,6 +180,9 @@ namespace GalaxyShooting.Rendering
 
             int x = 0;
             int y = 0;
+
+            if (r > 1000)
+                return;
 
             for (int i = 0; i < r; i++)
             {
