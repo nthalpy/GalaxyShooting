@@ -38,7 +38,7 @@ namespace GalaxyShooting.Rendering
 
         public void SetPixel(int x, int y, ConsoleColor color, double depth)
         {
-            if (depth > 1 || buffer[x, y].Depth > depth)
+            if (depth > 1 || buffer[x, y].Depth < depth)
                 return;
 
             buffer[x, y].Color = color;
