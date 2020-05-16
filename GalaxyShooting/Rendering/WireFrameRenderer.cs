@@ -16,6 +16,8 @@ namespace GalaxyShooting.Rendering
 
         private PixelBuffer foregroundBuffer;
         private PixelBuffer backgroundBuffer;
+        private ScreenBuffer foregroundScreenBuffer;
+        private ScreenBuffer backgroundScreenBuffer;
 
         public WireFrameRenderer(int screenSizeX, int screenSizeY)
         {
@@ -24,6 +26,8 @@ namespace GalaxyShooting.Rendering
 
             foregroundBuffer = new PixelBuffer(screenSizeX, screenSizeY);
             backgroundBuffer = new PixelBuffer(screenSizeX, screenSizeY);
+            foregroundScreenBuffer = new ScreenBuffer(screenSizeX, screenSizeY);
+            backgroundScreenBuffer = new ScreenBuffer(screenSizeX, screenSizeY);
 
             triangleList = new List<Triangle>();
         }
@@ -40,7 +44,7 @@ namespace GalaxyShooting.Rendering
         public void RenderToBuffer(Camera cam)
         {
             // temporary matrix
-            /*
+
             Matrix4x4 mvp = new Matrix4x4
             {
                 Row0 = new Vector4(1, 0, 0, 0),
@@ -48,8 +52,8 @@ namespace GalaxyShooting.Rendering
                 Row2 = new Vector4(0, 0, 1, 0),
                 Row3 = new Vector4(0, 0, 0, 1),
             };
-            */
-            Matrix4x4 mvp = cam.GetMatrix();
+
+            //Matrix4x4 mvp = cam.GetMatrix();
 
             foreach (Triangle triangle in triangleList)
             {
@@ -70,40 +74,42 @@ namespace GalaxyShooting.Rendering
             RenderLine(a, c);
         }
 
-        private void RenderLine(Vector3 a, Vector3 b) {
+        private void RenderLine(Vector3 a, Vector3 b)
+        {
             //I ignored z value
             //@moyamong
-            int x1 = (int)Math.Round(a.X * screenSizeX / 2 + screenSizeX/2);
-            int x2 = (int)Math.Round(b.X * screenSizeX / 2 + screenSizeX/2);
-            int y1 = (int)Math.Round(a.Y * screenSizeY / 2 + screenSizeY/2);
-            int y2 = (int)Math.Round(b.Y * screenSizeY / 2 + screenSizeY/2);
+            int x1 = (int)Math.Round(a.X * screenSizeX / 2 + screenSizeX / 2);
+            int x2 = (int)Math.Round(b.X * screenSizeX / 2 + screenSizeX / 2);
+            int y1 = (int)Math.Round(a.Y * screenSizeY / 2 + screenSizeY / 2);
+            int y2 = (int)Math.Round(b.Y * screenSizeY / 2 + screenSizeY / 2);
 
             int xDiff = Math.Max(x1, x2) - Math.Min(x1, x2);
             int yDiff = Math.Max(y1, y2) - Math.Min(y1, y2);
 
             int r = Math.Max(xDiff, yDiff);
-
             double x0 = x1;
             double y0 = y1;
+            int x = 0;
+            int y = 0;
 
-            int x=0;
-            int y=0;
-
-            for (int i = 0; i < r; i++) {
-                if (xDiff!=0)
+            for (int i = 0; i < r; i++)
+            {
+                if (xDiff != 0)
+                {
                     x0 += (double)(x2 - x1) / r;
-                if (yDiff!=0)
+                }
+                if (yDiff != 0)
+                {
                     y0 += (double)(y2 - y1) / r;
-
+                }
                 x = (int)Math.Round(x0);
                 y = (int)Math.Round(y0);
 
-                if (x < 0 || x >= screenSizeX || y < 0 || y >= screenSizeY)
-                    continue;
+                if (x < 0 || x >= screenSizeX || y < 0 || y >= screenSizeY) continue;
 
                 backgroundBuffer.SetPixel(x, y, ConsoleColor.White, 0);
             }
-            
+
         }
 
         public void ClearBuffer()
@@ -112,9 +118,13 @@ namespace GalaxyShooting.Rendering
         }
         public void SwapBuffer()
         {
-            PixelBuffer tmp = foregroundBuffer;
+            PixelBuffer pixelBuffer = foregroundBuffer;
             foregroundBuffer = backgroundBuffer;
-            backgroundBuffer = tmp;
+            backgroundBuffer = pixelBuffer;
+
+            ScreenBuffer screenBuffer = foregroundScreenBuffer;
+            foregroundScreenBuffer = backgroundScreenBuffer;
+            backgroundScreenBuffer = screenBuffer;
 
             UpdateScreen();
         }
@@ -124,11 +134,16 @@ namespace GalaxyShooting.Rendering
         /// </summary>
         private void UpdateScreen()
         {
+            UpdateScreenBuffer();
+            SyncScreenBuffer();
+        }
+        private void UpdateScreenBuffer()
+        {
             const int xPerChar = 2;
             const int yPerChar = 4;
             const int BrailleBase = 0x2800;
 
-            Console.Clear();
+            foregroundScreenBuffer.ClearBuffer();
 
             for (int screenY = 0; screenY * yPerChar < screenSizeY; screenY++)
             {
@@ -168,13 +183,25 @@ namespace GalaxyShooting.Rendering
                         }
                     }
 
-                    // TODO:
-                    // write this to buffer, and update console prompt only pixel which needs.
                     Debug.Assert(0x2800 <= chVal && chVal <= 0x28FF);
-                    Console.Write((Char)chVal);
+                    foregroundScreenBuffer.SetPixel(screenX, screenY, (Char)chVal);
                 }
-                Console.WriteLine();
             }
+        }
+        private void SyncScreenBuffer()
+        {
+            for (int y = 0; y < screenSizeY; y++)
+                for (int x = 0; x < screenSizeX; x++)
+                {
+                    Char srcCh = backgroundScreenBuffer.GetPixel(x, y);
+                    Char dstCh = foregroundScreenBuffer.GetPixel(x, y);
+
+                    if (srcCh != dstCh)
+                    {
+                        Console.SetCursorPosition(x, y);
+                        Console.Write(dstCh);
+                    }
+                }
         }
     }
 }
