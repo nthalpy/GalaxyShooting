@@ -11,12 +11,14 @@ namespace GalaxyShooting.Rendering
         public Quaternion Rotation;
 
         private readonly double aspect;
+        private readonly double verticalFOV;
         private readonly double zNear;
         private readonly double zFar;
 
-        public Camera(double aspect, double zNear, double zFar)
+        public Camera(double aspect, double verticalFOV, double zNear, double zFar)
         {
             this.aspect = aspect;
+            this.verticalFOV = verticalFOV;
             this.zNear = zNear;
             this.zFar = zFar;
         }
@@ -27,7 +29,16 @@ namespace GalaxyShooting.Rendering
         public Matrix4x4 GetMatrix()
         {
             // TODO: Implement this @moyamong
-            throw new NotImplementedException();
+            double tanHalf = Math.Tan(verticalFOV / 2);
+            double zRange = zNear - zFar;
+            Matrix4x4 perspectiveMatrix = new Matrix4x4();
+            perspectiveMatrix.Row0 = new Vector4(1/(aspect* tanHalf),0,0,0);
+            perspectiveMatrix.Row1 = new Vector4(0, 1 / (tanHalf), 0, 0);
+            perspectiveMatrix.Row2 = new Vector4(0, 0, (-zNear - zFar) / zRange, 2 * zFar * zNear / zRange);
+            perspectiveMatrix.Row3 = new Vector4(0, 0, 1, 0);
+            return perspectiveMatrix;
+            //throw new NotImplementedException();
         }
+    
     }
 }
