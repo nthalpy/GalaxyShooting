@@ -56,8 +56,6 @@ namespace GalaxyShooting.Logic
                     vbo[ebo[3 * idx + 2]]
                 );
             }
-
-            Position = new Vector3(0, 0, 3);
         }
 
         public override void Update()
@@ -67,7 +65,7 @@ namespace GalaxyShooting.Logic
             if (InputManager.IsPressed(VK.RIGHT))
                 theta += Math.PI / 30;
 
-            Position = new Vector3(0.8 * Math.Cos(theta), 0.8 * Math.Sin(theta), 3);
+            Position = new Vector3(5 * Math.Cos(theta), 5 * Math.Sin(theta), 7);
         }
 
         public override void Render(WireFrameRenderer renderer)
