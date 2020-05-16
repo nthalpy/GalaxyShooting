@@ -45,11 +45,14 @@ namespace GalaxyShooting.Rendering
         {
             Matrix4x4 mvp = cam.GetMatrix();
 
+            Matrix4x4 cameraRotate = cam.currentRotationMatrix;
+            Matrix4x4 cameraPosition = Matrix4x4.CreateTranslateMatrix(-cam.Position);
+
             foreach (Triangle triangle in triangleList)
             {
-                Vector3 a = (mvp * new Vector4(triangle.A, 1)).HomogeneousToXYZ();
-                Vector3 b = (mvp * new Vector4(triangle.B, 1)).HomogeneousToXYZ();
-                Vector3 c = (mvp * new Vector4(triangle.C, 1)).HomogeneousToXYZ();
+                Vector3 a = (mvp * (cameraRotate * (cameraPosition * new Vector4(triangle.A, 1)))).HomogeneousToXYZ();
+                Vector3 b = (mvp * (cameraRotate * (cameraPosition * new Vector4(triangle.B, 1)))).HomogeneousToXYZ();
+                Vector3 c = (mvp * (cameraRotate * (cameraPosition * new Vector4(triangle.C, 1)))).HomogeneousToXYZ();
 
                 RenderTriangleToBuffer(a, b, c);
             }

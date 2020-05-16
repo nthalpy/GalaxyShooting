@@ -33,7 +33,7 @@ namespace GalaxyShooting.Logic
             renderer.ClearBuffer();
 
             foreach (GameObjectBase obj in objects)
-                obj.Render(renderer, camera);
+                obj.Render(renderer);
 
             renderer.RenderToBuffer(camera);
 
