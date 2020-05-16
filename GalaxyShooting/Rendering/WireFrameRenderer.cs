@@ -141,7 +141,7 @@ namespace GalaxyShooting.Rendering
                     if (xBlank < 0 || xBlank >= screenSizeX || yBlank < 0 || yBlank >= screenSizeY)
                         continue;
 
-                    backgroundBuffer.SetPixel(xBlank, yBlank, ConsoleColor.Black, depth4);
+                    backgroundBuffer.SetPixel(xBlank, screenSizeY - 1 - yBlank, ConsoleColor.Black, depth4);
                 }
             }
             RenderLine(a, b);
@@ -190,7 +190,7 @@ namespace GalaxyShooting.Rendering
                 if (x < 0 || x >= screenSizeX || y < 0 || y >= screenSizeY)
                     continue;
 
-                backgroundBuffer.SetPixel(x, y, ConsoleColor.White, depth0);
+                backgroundBuffer.SetPixel(x, screenSizeY - 1 - y, ConsoleColor.White, depth0);
             }
         }
 
