@@ -7,7 +7,7 @@ namespace GalaxyShooting.Logic
     /// <summary>
     /// 렌더링 테스트용 object.
     /// </summary>
-    public sealed class RenderTestObject : GameObject
+    public sealed class RenderTestObject : GameObjectBase
     {
         private Vector3[] vbo;
         private int[] ebo;

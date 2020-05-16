@@ -2,7 +2,7 @@
 
 namespace GalaxyShooting.Logic
 {
-    public abstract class GameObject
+    public abstract class GameObjectBase
     {
         public abstract void Update();
         public abstract void Render(WireFrameRenderer renderer);
