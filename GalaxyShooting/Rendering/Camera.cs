@@ -29,7 +29,7 @@ namespace GalaxyShooting.Rendering
         public Matrix4x4 GetMatrix()
         {
             // TODO: Implement this @moyamong
-            double tanHalf = Math.Tan(verticalFOV / 2);
+            double tanHalf = Math.Tan(verticalFOV * Math.PI / 360);
             double zRange = zNear - zFar;
             Matrix4x4 perspectiveMatrix = new Matrix4x4();
             perspectiveMatrix.Row0 = new Vector4(1/(aspect* tanHalf),0,0,0);
