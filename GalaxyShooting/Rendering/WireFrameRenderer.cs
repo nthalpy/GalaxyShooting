@@ -64,7 +64,7 @@ namespace GalaxyShooting.Rendering
             int x3 = (int)Math.Round(c.X * screenSizeX / 2 + screenSizeX / 2);
             int y1 = (int)Math.Round(a.Y * screenSizeY / 2 + screenSizeY / 2);
             int y2 = (int)Math.Round(b.Y * screenSizeY / 2 + screenSizeY / 2);
-            int y3 = (int)Math.Round(b.Y * screenSizeY / 2 + screenSizeY / 2);
+            int y3 = (int)Math.Round(c.Y * screenSizeY / 2 + screenSizeY / 2);
 
             double depth1 = a.Z;
             double depth2 = b.Z;
@@ -114,7 +114,7 @@ namespace GalaxyShooting.Rendering
                     if (xBlankDiff != 0)
                         x4 += (double)(x - x1) / rBlank;
 
-                    if (yDiff != 0)
+                    if (yBlankDiff != 0)
                         y4 += (double)(y - y1) / rBlank;
 
                     depth4 += (depth0 - depth1) / rBlank;
@@ -125,7 +125,7 @@ namespace GalaxyShooting.Rendering
                     if (xBlank < 0 || xBlank >= screenSizeX || yBlank < 0 || yBlank >= screenSizeY)
                         continue;
 
-                    backgroundBuffer.SetPixel(x, y, ConsoleColor.Black, depth4);
+                    backgroundBuffer.SetPixel(xBlank, yBlank, ConsoleColor.Black, depth4);
                 }
             }
             RenderLine(a, b);
