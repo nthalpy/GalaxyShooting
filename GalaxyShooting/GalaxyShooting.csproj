@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logic\GameLoop.cs" />
+    <Compile Include="Logic\GameLoopBase.cs" />
     <Compile Include="Logic\GameLoopManager.cs" />
     <Compile Include="Logic\GameObject.cs" />
     <Compile Include="Input\InputManager.cs" />
