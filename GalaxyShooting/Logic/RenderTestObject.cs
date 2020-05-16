@@ -13,7 +13,7 @@ namespace GalaxyShooting.Logic
 
         private Triangle[] tris;
 
-        private int frameCount;
+        private double theta;
 
         public Vector3 Position;
 
@@ -61,9 +61,11 @@ namespace GalaxyShooting.Logic
 
         public override void Update()
         {
-            frameCount++;
+            if (InputManager.IsPressed(VK.LEFT))
+                theta -= Math.PI / 30;
+            else if (InputManager.IsPressed(VK.RIGHT))
+                theta += Math.PI / 30;
 
-            double theta = frameCount * Math.PI / 30;
             Position = new Vector3(0.8 * Math.Cos(theta), 0.8 * Math.Sin(theta), 3);
         }
 
