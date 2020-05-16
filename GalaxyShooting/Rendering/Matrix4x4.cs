@@ -7,6 +7,11 @@
         public Vector4 Row2;
         public Vector4 Row3;
 
+
+        static double SumOfElementwiseProduct(Vector4 l, Vector4 r) {
+            return l.X * r.X + l.Y * r.Y + l.Z * r.Z + l.W * r.W;
+        }
+
         public static Vector4 operator *(Matrix4x4 m, Vector4 v)
         {
             return new Vector4(
@@ -16,10 +21,7 @@
                 SumOfElementwiseProduct(m.Row3, v)
             );
 
-            double SumOfElementwiseProduct(Vector4 l, Vector4 r)
-            {
-                return l.X * r.X + l.Y * r.Y + l.Z * r.Z + l.W * r.W;
-            }
+            
         }
     }
 }
