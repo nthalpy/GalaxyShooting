@@ -28,6 +28,8 @@ namespace GalaxyShooting.Rendering
             screenCache = new Char[screenSizeX, screenSizeY];
 
             triangleList = new List<Triangle>();
+
+            Console.SetWindowSize(screenSizeX / 2 + 2, screenSizeY / 4 + 2);
         }
 
         public void EnqueueTriangle(Triangle triangle)
@@ -41,16 +43,6 @@ namespace GalaxyShooting.Rendering
         /// </summary>
         public void RenderToBuffer(Camera cam)
         {
-            // temporary matrix
-
-            //Matrix4x4 mvp = new Matrix4x4
-            //{
-            //    Row0 = new Vector4(1, 0, 0, 0),
-            //    Row1 = new Vector4(0, 1, 0, 0),
-            //    Row2 = new Vector4(0, 0, 1, 0),
-            //    Row3 = new Vector4(0, 0, 0, 1),
-            //};
-
             Matrix4x4 mvp = cam.GetMatrix();
 
             foreach (Triangle triangle in triangleList)

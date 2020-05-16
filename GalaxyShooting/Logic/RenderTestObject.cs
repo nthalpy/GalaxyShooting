@@ -64,7 +64,7 @@ namespace GalaxyShooting.Logic
         {
             if (InputManager.IsPressed(VK.LEFT))
                 theta -= Math.PI / 30;
-            else if (InputManager.IsPressed(VK.RIGHT))
+            if (InputManager.IsPressed(VK.RIGHT))
                 theta += Math.PI / 30;
 
             Position = new Vector3(0.8 * Math.Cos(theta), 0.8 * Math.Sin(theta), 3);
