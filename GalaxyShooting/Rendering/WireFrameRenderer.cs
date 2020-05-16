@@ -258,6 +258,9 @@ namespace GalaxyShooting.Rendering
                     }
                 }
             }
+
+            // caret이 screen 아래에 가도록
+            Console.SetCursorPosition(0, screenSizeY / yPerChar + 1);
         }
     }
 }
