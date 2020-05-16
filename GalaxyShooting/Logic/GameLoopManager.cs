@@ -5,9 +5,9 @@ namespace GalaxyShooting.Logic
 {
     public static class GameLoopManager
     {
-        private static GameLoop currentGameLoop;
+        private static GameLoopBase currentGameLoop;
 
-        public static void Start(GameLoop gameLoop)
+        public static void Start(GameLoopBase gameLoop)
         {
             currentGameLoop = gameLoop;
 
@@ -18,14 +18,14 @@ namespace GalaxyShooting.Logic
             }
         }
 
-        public static void ChangeLoop(GameLoop gameLoop)
+        public static void ChangeLoop(GameLoopBase gameLoop)
         {
             currentGameLoop = gameLoop;
         }
 
         private static void Loop()
         {
-            GameLoop loop = currentGameLoop;
+            GameLoopBase loop = currentGameLoop;
 
             loop.Update();
             loop.Render();

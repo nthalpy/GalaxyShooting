@@ -1,6 +1,6 @@
 ﻿namespace GalaxyShooting.Logic
 {
-    public abstract class GameLoop
+    public abstract class GameLoopBase
     {
         public abstract void Update();
         public abstract void Render();

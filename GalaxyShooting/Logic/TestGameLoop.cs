@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GalaxyShooting.Logic
 {
-    public sealed class TestGameLoop : GameLoop
+    public sealed class TestGameLoop : GameLoopBase
     {
         private readonly Camera camera;
         private readonly WireFrameRenderer renderer;
