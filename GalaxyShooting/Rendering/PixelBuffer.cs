@@ -1,17 +1,31 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace GalaxyShooting.Rendering
 {
     public sealed class PixelBuffer
     {
-        private int screenSizeX;
-        private int screenSizeY;
+        [DebuggerDisplay("{Color}")]
+        private sealed class PixelInfo
+        {
+            public ConsoleColor Color;
+            public double Depth;
+
+            public void Clear()
+            {
+                Color = ConsoleColor.Black;
+                Depth = 1;
+            }
+        }
+
+        private readonly int screenSizeX;
+        private readonly int screenSizeY;
 
         // Memo:
         // nested array is a *bit* slower than array of array
         // refactor this to array of array if too slow..
         // @Harnel
-        private PixelInfo[,] buffer;
+        private readonly PixelInfo[,] buffer;
 
         public PixelBuffer(int screenSizeX, int screenSizeY)
         {
@@ -38,7 +52,7 @@ namespace GalaxyShooting.Rendering
 
         public void SetPixel(int x, int y, ConsoleColor color, double depth)
         {
-            if (depth > 1 || buffer[x, y].Depth < depth)
+            if (depth > 1 || depth <= -1 || buffer[x, y].Depth < depth)
                 return;
 
             buffer[x, y].Color = color;
