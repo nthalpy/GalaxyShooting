@@ -53,7 +53,6 @@
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\Matrix4x4.cs" />
     <Compile Include="Rendering\PixelBuffer.cs" />
-    <Compile Include="Rendering\PixelInfo.cs" />
     <Compile Include="Rendering\Quaternion.cs" />
     <Compile Include="Rendering\Triangle.cs" />
     <Compile Include="Rendering\Vector2.cs" />
