@@ -83,7 +83,15 @@ namespace GalaxyShooting.Rendering
             int x = 0;
             int y = 0;
 
-            for (int i = 0; i < r; i++)
+            if (xDiff != 0)
+                x0 += (double)(x3 - x2) / r;
+
+            if (yDiff != 0)
+                y0 += (double)(y3 - y2) / r;
+
+            depth0 += (depth3 - depth2) / r;
+
+            for (int i = 0; i < r - 2; i++)
             { //inner space
                 if (xDiff != 0)
                     x0 += (double)(x3 - x2) / r;
@@ -109,7 +117,15 @@ namespace GalaxyShooting.Rendering
                 int xBlank = 0;
                 int yBlank = 0;
 
-                for (int j = 0; j < rBlank; j++)
+                if (xBlankDiff != 0)
+                    x4 += (double)(x - x1) / rBlank;
+
+                if (yBlankDiff != 0)
+                    y4 += (double)(y - y1) / rBlank;
+
+                depth4 += (depth0 - depth1) / rBlank;
+
+                for (int j = 0; j < rBlank - 2; j++)
                 {
                     if (xBlankDiff != 0)
                         x4 += (double)(x - x1) / rBlank;

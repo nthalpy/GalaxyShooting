@@ -16,7 +16,14 @@ namespace GalaxyShooting.Logic
 
         private double theta;
 
+        private double yaw;
+        private double pitch;
+        private double roll;
+
         public Vector3 Position;
+        public Quaternion RotationX;
+        public Quaternion RotationY;
+        public Quaternion RotationZ;
 
         public RenderTestObject()
         {
@@ -65,7 +72,23 @@ namespace GalaxyShooting.Logic
             if (InputManager.IsPressed(VK.RIGHT))
                 theta += Math.PI / 30;
 
+            if (InputManager.IsPressed(VK.KEY_S))
+                pitch += Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_W))
+                pitch -= Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_A))
+                yaw -= Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_D))
+                yaw += Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_Q))
+                roll -= Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_E))
+                roll += Math.PI / 30;
+
             Position = new Vector3(5 * Math.Cos(theta), 5 * Math.Sin(theta), 7);
+            RotationX = Quaternion.AxisAngle(new Vector3(1, 0, 0), roll);
+            RotationY = Quaternion.AxisAngle(new Vector3(0, 1, 0), pitch);
+            RotationZ = Quaternion.AxisAngle(new Vector3(0, 0, 1), yaw);
         }
 
         public override void Render(WireFrameRenderer renderer)
@@ -73,12 +96,14 @@ namespace GalaxyShooting.Logic
             // TODO: implement rotation @moyamong
             Matrix4x4 modelMatrix = Matrix4x4.CreateTranslateMatrix(Position);
 
+            Matrix4x4 rotateMatrix = Matrix4x4.CreateRotationMatrix(RotationZ) * (Matrix4x4.CreateRotationMatrix(RotationY) * Matrix4x4.CreateRotationMatrix(RotationX));
+
             foreach (Triangle triangle in tris)
             {
                 renderer.EnqueueTriangle(new Triangle(
-                    (modelMatrix * triangle.A.ToXYZ1()).HomogeneousToXYZ(),
-                    (modelMatrix * triangle.B.ToXYZ1()).HomogeneousToXYZ(),
-                    (modelMatrix * triangle.C.ToXYZ1()).HomogeneousToXYZ()
+                    (modelMatrix * (rotateMatrix * triangle.A.ToXYZ1())).HomogeneousToXYZ(),
+                    (modelMatrix * (rotateMatrix * triangle.B.ToXYZ1())).HomogeneousToXYZ(),
+                    (modelMatrix * (rotateMatrix * triangle.C.ToXYZ1())).HomogeneousToXYZ()
                 ));
             }
         }
