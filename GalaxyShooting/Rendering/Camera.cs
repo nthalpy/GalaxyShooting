@@ -23,6 +23,8 @@ namespace GalaxyShooting.Rendering
         double pitch = 0;
         double roll = 0;
 
+        double speed = 0.5;
+
         public Camera(double aspect, double verticalFOV, double zNear, double zFar)
         {
             this.aspect = aspect;
@@ -57,12 +59,6 @@ namespace GalaxyShooting.Rendering
 
         public void Update()
         {
-            /*
-            if (InputManager.IsPressed(VK.KEY_J))
-                Position.X += 0.1;
-            if (InputManager.IsPressed(VK.KEY_L))
-                Position.X -= 0.1;
-            */
 
             if (InputManager.IsPressed(VK.KEY_U))
                 pitch += Math.PI / 30;
@@ -84,6 +80,15 @@ namespace GalaxyShooting.Rendering
             Quaternion rotZ = Quaternion.AxisAngle(new Vector3(0, 0, 1), yaw);
 
             currentRotationMatrix = Matrix4x4.CreateRotationMatrix(rotZ) * Matrix4x4.CreateRotationMatrix(rotY) * Matrix4x4.CreateRotationMatrix(rotX);
+
+            Vector4 direction4 = currentRotationMatrix * new Vector4(0, 0, -1, 1);
+            Vector3 direction = new Vector3(direction4.X * speed, direction4.Y * speed, -direction4.Z * speed);
+
+            if (InputManager.IsPressed(VK.KEY_Y))
+                Position += direction;
+            if (InputManager.IsPressed(VK.KEY_H))
+                Position -= direction;
+
             //currentRotationMatrix *= rotMatrixChange;
         }
     }
