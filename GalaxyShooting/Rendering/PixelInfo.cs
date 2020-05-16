@@ -7,10 +7,12 @@ namespace GalaxyShooting.Rendering
     public sealed class PixelInfo
     {
         public ConsoleColor Color;
+        public double Depth;
 
         public void Clear()
         {
             Color = ConsoleColor.Black;
+            Depth = -1;
         }
     }
 }

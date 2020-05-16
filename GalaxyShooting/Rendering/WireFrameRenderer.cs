@@ -110,7 +110,6 @@ namespace GalaxyShooting.Rendering
 
                 backgroundBuffer.SetPixel(x, y, ConsoleColor.White, 0);
             }
-
         }
 
         public void ClearBuffer()

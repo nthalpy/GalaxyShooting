@@ -31,12 +31,18 @@ namespace GalaxyShooting.Rendering
         {
             for (int y = 0; y < screenSizeY; y++)
                 for (int x = 0; x < screenSizeX; x++)
+                {
                     buffer[x, y].Clear();
+                }
         }
 
         public void SetPixel(int x, int y, ConsoleColor color, double depth)
         {
+            if (depth > 1 || buffer[x, y].Depth > depth)
+                return;
+
             buffer[x, y].Color = color;
+            buffer[x, y].Depth = depth;
         }
         public ConsoleColor GetPixel(int x, int y)
         {
