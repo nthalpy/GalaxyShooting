@@ -40,7 +40,7 @@ namespace GalaxyShooting.Rendering
         public void RenderToBuffer(Camera cam)
         {
             // temporary matrix
-            
+            /*
             Matrix4x4 mvp = new Matrix4x4
             {
                 Row0 = new Vector4(1, 0, 0, 0),
@@ -48,8 +48,8 @@ namespace GalaxyShooting.Rendering
                 Row2 = new Vector4(0, 0, 1, 0),
                 Row3 = new Vector4(0, 0, 0, 1),
             };
-            
-            //Matrix4x4 mvp = cam.GetMatrix();
+            */
+            Matrix4x4 mvp = cam.GetMatrix();
 
             foreach (Triangle triangle in triangleList)
             {
@@ -82,22 +82,24 @@ namespace GalaxyShooting.Rendering
             int yDiff = Math.Max(y1, y2) - Math.Min(y1, y2);
 
             int r = Math.Max(xDiff, yDiff);
+
             double x0 = x1;
             double y0 = y1;
+
             int x=0;
             int y=0;
 
             for (int i = 0; i < r; i++) {
-                if (xDiff!=0) {
+                if (xDiff!=0)
                     x0 += (double)(x2 - x1) / r;
-                }
-                if (yDiff!=0) {
+                if (yDiff!=0)
                     y0 += (double)(y2 - y1) / r;
-                }
+
                 x = (int)Math.Round(x0);
                 y = (int)Math.Round(y0);
 
-                if (x < 0 || x >= screenSizeX || y < 0 || y >= screenSizeY) continue;
+                if (x < 0 || x >= screenSizeX || y < 0 || y >= screenSizeY)
+                    continue;
 
                 backgroundBuffer.SetPixel(x, y, ConsoleColor.White, 0);
             }
