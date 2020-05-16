@@ -7,8 +7,8 @@
         public Vector4 Row2;
         public Vector4 Row3;
 
-
-        static double SumOfElementwiseProduct(Vector4 l, Vector4 r) {
+        private static double SumOfElementwiseProduct(Vector4 l, Vector4 r)
+        {
             return l.X * r.X + l.Y * r.Y + l.Z * r.Z + l.W * r.W;
         }
 
@@ -20,8 +20,6 @@
                 SumOfElementwiseProduct(m.Row2, v),
                 SumOfElementwiseProduct(m.Row3, v)
             );
-
-            
         }
     }
 }
