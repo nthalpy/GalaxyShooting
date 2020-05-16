@@ -16,8 +16,7 @@ namespace GalaxyShooting.Rendering
 
         private PixelBuffer foregroundBuffer;
         private PixelBuffer backgroundBuffer;
-        private ScreenBuffer foregroundScreenBuffer;
-        private ScreenBuffer backgroundScreenBuffer;
+        private Char[,] screenCache;
 
         public WireFrameRenderer(int screenSizeX, int screenSizeY)
         {
@@ -26,8 +25,7 @@ namespace GalaxyShooting.Rendering
 
             foregroundBuffer = new PixelBuffer(screenSizeX, screenSizeY);
             backgroundBuffer = new PixelBuffer(screenSizeX, screenSizeY);
-            foregroundScreenBuffer = new ScreenBuffer(screenSizeX, screenSizeY);
-            backgroundScreenBuffer = new ScreenBuffer(screenSizeX, screenSizeY);
+            screenCache = new Char[screenSizeX, screenSizeY];
 
             triangleList = new List<Triangle>();
         }
@@ -124,10 +122,6 @@ namespace GalaxyShooting.Rendering
             foregroundBuffer = backgroundBuffer;
             backgroundBuffer = pixelBuffer;
 
-            ScreenBuffer screenBuffer = foregroundScreenBuffer;
-            foregroundScreenBuffer = backgroundScreenBuffer;
-            backgroundScreenBuffer = screenBuffer;
-
             UpdateScreen();
         }
 
@@ -136,16 +130,9 @@ namespace GalaxyShooting.Rendering
         /// </summary>
         private void UpdateScreen()
         {
-            UpdateScreenBuffer();
-            SyncScreenBuffer();
-        }
-        private void UpdateScreenBuffer()
-        {
             const int xPerChar = 2;
             const int yPerChar = 4;
             const int BrailleBase = 0x2800;
-
-            foregroundScreenBuffer.ClearBuffer();
 
             for (int screenY = 0; screenY * yPerChar < screenSizeY; screenY++)
             {
@@ -186,24 +173,17 @@ namespace GalaxyShooting.Rendering
                     }
 
                     Debug.Assert(0x2800 <= chVal && chVal <= 0x28FF);
-                    foregroundScreenBuffer.SetPixel(screenX, screenY, (Char)chVal);
-                }
-            }
-        }
-        private void SyncScreenBuffer()
-        {
-            for (int y = 0; y < screenSizeY; y++)
-                for (int x = 0; x < screenSizeX; x++)
-                {
-                    Char srcCh = backgroundScreenBuffer.GetPixel(x, y);
-                    Char dstCh = foregroundScreenBuffer.GetPixel(x, y);
 
-                    if (srcCh != dstCh)
+                    Char oldCh = screenCache[screenX, screenY];
+                    Char newCh = (Char)chVal;
+                    if (newCh != oldCh)
                     {
-                        Console.SetCursorPosition(x, y);
-                        Console.Write(dstCh);
+                        screenCache[screenX, screenY] = newCh;
+                        Console.SetCursorPosition(screenX, screenY);
+                        Console.Write(newCh);
                     }
                 }
+            }
         }
     }
 }

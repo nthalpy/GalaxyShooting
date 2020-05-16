@@ -55,7 +55,6 @@
     <Compile Include="Rendering\PixelBuffer.cs" />
     <Compile Include="Rendering\PixelInfo.cs" />
     <Compile Include="Rendering\Quaternion.cs" />
-    <Compile Include="Rendering\ScreenBuffer.cs" />
     <Compile Include="Rendering\Triangle.cs" />
     <Compile Include="Rendering\Vector2.cs" />
     <Compile Include="Rendering\WireFrameRenderer.cs" />
