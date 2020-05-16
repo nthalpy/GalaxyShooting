@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace GalaxyShooting.Rendering {
+namespace GalaxyShooting.Rendering
+{
     /// <summary>
     /// Rendering을 담당해주는 객체
     /// </summary>
-    public sealed class WireFrameRenderer {
+    public sealed class WireFrameRenderer
+    {
         private readonly int screenSizeX;
         private readonly int screenSizeY;
 
@@ -16,7 +18,8 @@ namespace GalaxyShooting.Rendering {
         private PixelBuffer backgroundBuffer;
         private Char[,] screenCache;
 
-        public WireFrameRenderer(int screenSizeX, int screenSizeY) {
+        public WireFrameRenderer(int screenSizeX, int screenSizeY)
+        {
             this.screenSizeX = screenSizeX;
             this.screenSizeY = screenSizeY;
 
@@ -27,7 +30,8 @@ namespace GalaxyShooting.Rendering {
             triangleList = new List<Triangle>();
         }
 
-        public void EnqueueTriangle(Triangle triangle) {
+        public void EnqueueTriangle(Triangle triangle)
+        {
             triangleList.Add(triangle);
         }
 
@@ -35,7 +39,8 @@ namespace GalaxyShooting.Rendering {
         /// Enqueue 된 triangle들의 world 좌표를 camera의 matrix를 통해서 NDC에 mapping
         /// mapping한 것을 pixel buffer에 write
         /// </summary>
-        public void RenderToBuffer(Camera cam) {
+        public void RenderToBuffer(Camera cam)
+        {
             // temporary matrix
 
             //Matrix4x4 mvp = new Matrix4x4
@@ -48,7 +53,8 @@ namespace GalaxyShooting.Rendering {
 
             Matrix4x4 mvp = cam.GetMatrix();
 
-            foreach (Triangle triangle in triangleList) {
+            foreach (Triangle triangle in triangleList)
+            {
                 Vector3 a = (mvp * new Vector4(triangle.A, 1)).HomogeneousToXYZ();
                 Vector3 b = (mvp * new Vector4(triangle.B, 1)).HomogeneousToXYZ();
                 Vector3 c = (mvp * new Vector4(triangle.C, 1)).HomogeneousToXYZ();
@@ -59,7 +65,8 @@ namespace GalaxyShooting.Rendering {
             triangleList.Clear();
         }
 
-        private void RenderTriangleToBuffer(Vector3 a, Vector3 b, Vector3 c) {
+        private void RenderTriangleToBuffer(Vector3 a, Vector3 b, Vector3 c)
+        {
             int x1 = (int)Math.Round(a.X * screenSizeX / 2 + screenSizeX / 2);
             int x2 = (int)Math.Round(b.X * screenSizeX / 2 + screenSizeX / 2);
             int x3 = (int)Math.Round(c.X * screenSizeX / 2 + screenSizeX / 2);
@@ -84,7 +91,8 @@ namespace GalaxyShooting.Rendering {
             int x = 0;
             int y = 0;
 
-            for (int i = 0; i < r; i++) { //inner space
+            for (int i = 0; i < r; i++)
+            { //inner space
                 if (xDiff != 0)
                     x0 += (double)(x3 - x2) / r;
 
@@ -109,7 +117,8 @@ namespace GalaxyShooting.Rendering {
                 int xBlank = 0;
                 int yBlank = 0;
 
-                for (int j = 0; j < rBlank; j++) {
+                for (int j = 0; j < rBlank; j++)
+                {
                     if (xBlankDiff != 0)
                         x4 += (double)(x - x1) / rBlank;
 
@@ -126,15 +135,14 @@ namespace GalaxyShooting.Rendering {
 
                     backgroundBuffer.SetPixel(x, y, ConsoleColor.Black, depth4);
                 }
-
             }
-
             RenderLine(a, b);
             RenderLine(b, c);
             RenderLine(a, c);
         }
 
-        private void RenderLine(Vector3 a, Vector3 b) {
+        private void RenderLine(Vector3 a, Vector3 b)
+        {
             //I ignored z value
             //@moyamong
             int x1 = (int)Math.Round(a.X * screenSizeX / 2 + screenSizeX / 2);
@@ -158,7 +166,8 @@ namespace GalaxyShooting.Rendering {
             int x = 0;
             int y = 0;
 
-            for (int i = 0; i < r; i++) {
+            for (int i = 0; i < r; i++)
+            {
                 if (xDiff != 0)
                     x0 += (double)(x2 - x1) / r;
 
@@ -177,10 +186,12 @@ namespace GalaxyShooting.Rendering {
             }
         }
 
-        public void ClearBuffer() {
+        public void ClearBuffer()
+        {
             backgroundBuffer.ClearBuffer();
         }
-        public void SwapBuffer() {
+        public void SwapBuffer()
+        {
             PixelBuffer pixelBuffer = foregroundBuffer;
             foregroundBuffer = backgroundBuffer;
             backgroundBuffer = pixelBuffer;
@@ -191,13 +202,16 @@ namespace GalaxyShooting.Rendering {
         /// <summary>
         /// foreground의 내용물을 stdout에 update.
         /// </summary>
-        private void UpdateScreen() {
+        private void UpdateScreen()
+        {
             const int xPerChar = 2;
             const int yPerChar = 4;
             const int BrailleBase = 0x2800;
 
-            for (int screenY = 0; screenY * yPerChar < screenSizeY; screenY++) {
-                for (int screenX = 0; screenX * xPerChar < screenSizeX; screenX++) {
+            for (int screenY = 0; screenY * yPerChar < screenSizeY; screenY++)
+            {
+                for (int screenX = 0; screenX * xPerChar < screenSizeX; screenX++)
+                {
                     // braille:
                     // 0 3
                     // 1 4
@@ -206,12 +220,14 @@ namespace GalaxyShooting.Rendering {
 
                     int chVal = BrailleBase;
 
-                    for (int dx = 0; dx < xPerChar; dx++) {
+                    for (int dx = 0; dx < xPerChar; dx++)
+                    {
                         int bufferX = screenX * xPerChar + dx;
                         if (bufferX >= screenSizeX)
                             break;
 
-                        for (int dy = 0; dy < yPerChar - 1; dy++) {
+                        for (int dy = 0; dy < yPerChar - 1; dy++)
+                        {
                             int bufferY = screenY * yPerChar + dy;
                             if (bufferY >= screenSizeY)
                                 break;
@@ -234,7 +250,8 @@ namespace GalaxyShooting.Rendering {
 
                     Char oldCh = screenCache[screenX, screenY];
                     Char newCh = (Char)chVal;
-                    if (newCh != oldCh) {
+                    if (newCh != oldCh)
+                    {
                         screenCache[screenX, screenY] = newCh;
                         Console.SetCursorPosition(screenX, screenY);
                         Console.Write(newCh);
