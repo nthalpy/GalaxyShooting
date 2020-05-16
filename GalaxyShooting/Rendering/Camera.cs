@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using GalaxyShooting.Input;
 
 namespace GalaxyShooting.Rendering
 {
@@ -10,10 +12,16 @@ namespace GalaxyShooting.Rendering
         public Vector3 Position;
         public Quaternion Rotation;
 
+        public Matrix4x4 currentRotationMatrix;
+
         private readonly double aspect;
         private readonly double verticalFOV;
         private readonly double zNear;
         private readonly double zFar;
+
+        double yaw = 0;
+        double pitch = 0;
+        double roll = 0;
 
         public Camera(double aspect, double verticalFOV, double zNear, double zFar)
         {
@@ -21,6 +29,12 @@ namespace GalaxyShooting.Rendering
             this.verticalFOV = verticalFOV;
             this.zNear = zNear;
             this.zFar = zFar;
+
+            currentRotationMatrix = new Matrix4x4(
+                new Vector4(1, 0, 0, 0),
+                new Vector4(0, 1, 0, 0),
+                new Vector4(0, 0, 1, 0),
+                new Vector4(0, 0, 0, 1));
         }
 
         /// <summary>
@@ -40,5 +54,37 @@ namespace GalaxyShooting.Rendering
             return perspectiveMatrix;
         }
 
+
+        public void Update()
+        {
+            /*
+            if (InputManager.IsPressed(VK.KEY_J))
+                Position.X += 0.1;
+            if (InputManager.IsPressed(VK.KEY_L))
+                Position.X -= 0.1;
+            */
+
+            if (InputManager.IsPressed(VK.KEY_U))
+                pitch += Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_O))
+                pitch -= Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_J))
+                yaw -= Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_L))
+                yaw += Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_K))
+                roll -= Math.PI / 30;
+            if (InputManager.IsPressed(VK.KEY_I))
+                roll += Math.PI / 30;
+
+            //Debug.WriteLine(pitch);
+
+            Quaternion rotX = Quaternion.AxisAngle(new Vector3(1, 0, 0), roll);
+            Quaternion rotY = Quaternion.AxisAngle(new Vector3(0, 1, 0), pitch);
+            Quaternion rotZ = Quaternion.AxisAngle(new Vector3(0, 0, 1), yaw);
+
+            currentRotationMatrix = Matrix4x4.CreateRotationMatrix(rotZ) * Matrix4x4.CreateRotationMatrix(rotY) * Matrix4x4.CreateRotationMatrix(rotX);
+            //currentRotationMatrix *= rotMatrixChange;
+        }
     }
 }

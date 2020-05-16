@@ -55,19 +55,19 @@ namespace GalaxyShooting.Logic
             currentRotationMatrix *= rotMatrixChange;
         }
 
-        public override void Render(WireFrameRenderer renderer)
+        public override void Render(WireFrameRenderer renderer, Camera camera)
         {
             // TODO: implement rotation @moyamong
-            Matrix4x4 modelMatrix = Matrix4x4.CreateTranslateMatrix(Position);
+            Matrix4x4 modelMatrix = Matrix4x4.CreateTranslateMatrix(Position, camera);
 
             Matrix4x4 rotateMatrix = currentRotationMatrix;
 
             foreach (Triangle triangle in TestPlane.Tris)
             {
                 renderer.EnqueueTriangle(new Triangle(
-                    (modelMatrix * (rotateMatrix * triangle.A.ToXYZ1())).HomogeneousToXYZ(),
-                    (modelMatrix * (rotateMatrix * triangle.B.ToXYZ1())).HomogeneousToXYZ(),
-                    (modelMatrix * (rotateMatrix * triangle.C.ToXYZ1())).HomogeneousToXYZ()
+                    (camera.currentRotationMatrix * (modelMatrix * (rotateMatrix * triangle.A.ToXYZ1()))).HomogeneousToXYZ(),
+                    (camera.currentRotationMatrix * (modelMatrix * (rotateMatrix * triangle.B.ToXYZ1()))).HomogeneousToXYZ(),
+                    (camera.currentRotationMatrix * (modelMatrix * (rotateMatrix * triangle.C.ToXYZ1()))).HomogeneousToXYZ()
                 ));
             }
         }

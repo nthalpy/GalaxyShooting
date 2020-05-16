@@ -22,6 +22,8 @@ namespace GalaxyShooting.Logic
 
         public override void Update()
         {
+            camera.Update();
+
             foreach (GameObjectBase obj in objects)
                 obj.Update();
         }
@@ -31,7 +33,7 @@ namespace GalaxyShooting.Logic
             renderer.ClearBuffer();
 
             foreach (GameObjectBase obj in objects)
-                obj.Render(renderer);
+                obj.Render(renderer, camera);
 
             renderer.RenderToBuffer(camera);
 
