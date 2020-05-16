@@ -8,7 +8,7 @@ namespace GalaxyShooting.Logic
         private readonly Camera camera;
         private readonly WireFrameRenderer renderer;
 
-        private readonly List<GameObject> objects;
+        private readonly List<GameObjectBase> objects;
 
         public TestGameLoop()
         {
@@ -17,7 +17,7 @@ namespace GalaxyShooting.Logic
             // @moyamong
             camera = new Camera(1, 90, 0.1, 100);
             renderer = new WireFrameRenderer(40, 40);
-            objects = new List<GameObject>
+            objects = new List<GameObjectBase>
             {
                 new RenderTestObject()
             };
@@ -25,7 +25,7 @@ namespace GalaxyShooting.Logic
 
         public override void Update()
         {
-            foreach (GameObject obj in objects)
+            foreach (GameObjectBase obj in objects)
                 obj.Update();
         }
 
@@ -33,7 +33,7 @@ namespace GalaxyShooting.Logic
         {
             renderer.ClearBuffer();
 
-            foreach (GameObject obj in objects)
+            foreach (GameObjectBase obj in objects)
                 obj.Render(renderer);
 
             renderer.RenderToBuffer(camera);
