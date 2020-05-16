@@ -45,15 +45,15 @@ namespace GalaxyShooting.Rendering
         {
             // temporary matrix
 
-            Matrix4x4 mvp = new Matrix4x4
-            {
-                Row0 = new Vector4(1, 0, 0, 0),
-                Row1 = new Vector4(0, 1, 0, 0),
-                Row2 = new Vector4(0, 0, 1, 0),
-                Row3 = new Vector4(0, 0, 0, 1),
-            };
+            //Matrix4x4 mvp = new Matrix4x4
+            //{
+            //    Row0 = new Vector4(1, 0, 0, 0),
+            //    Row1 = new Vector4(0, 1, 0, 0),
+            //    Row2 = new Vector4(0, 0, 1, 0),
+            //    Row3 = new Vector4(0, 0, 0, 1),
+            //};
 
-            //Matrix4x4 mvp = cam.GetMatrix();
+            Matrix4x4 mvp = cam.GetMatrix();
 
             foreach (Triangle triangle in triangleList)
             {
@@ -63,6 +63,8 @@ namespace GalaxyShooting.Rendering
 
                 RenderTriangleToBuffer(a, b, c);
             }
+
+            triangleList.Clear();
         }
 
         private void RenderTriangleToBuffer(Vector3 a, Vector3 b, Vector3 c)
@@ -114,7 +116,7 @@ namespace GalaxyShooting.Rendering
 
         public void ClearBuffer()
         {
-            foregroundBuffer.ClearBuffer();
+            backgroundBuffer.ClearBuffer();
         }
         public void SwapBuffer()
         {
