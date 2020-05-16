@@ -87,25 +87,26 @@ namespace GalaxyShooting.Rendering
             int yDiff = Math.Max(y1, y2) - Math.Min(y1, y2);
 
             int r = Math.Max(xDiff, yDiff);
+
             double x0 = x1;
             double y0 = y1;
+
             int x = 0;
             int y = 0;
 
             for (int i = 0; i < r; i++)
             {
                 if (xDiff != 0)
-                {
                     x0 += (double)(x2 - x1) / r;
-                }
+
                 if (yDiff != 0)
-                {
                     y0 += (double)(y2 - y1) / r;
-                }
+
                 x = (int)Math.Round(x0);
                 y = (int)Math.Round(y0);
 
-                if (x < 0 || x >= screenSizeX || y < 0 || y >= screenSizeY) continue;
+                if (x < 0 || x >= screenSizeX || y < 0 || y >= screenSizeY)
+                    continue;
 
                 backgroundBuffer.SetPixel(x, y, ConsoleColor.White, 0);
             }
