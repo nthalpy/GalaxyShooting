@@ -54,6 +54,14 @@ namespace GalaxyShooting.Rendering
 
         private void RenderTriangleToBuffer(Vector3 a, Vector3 b, Vector3 c)
         {
+            // do simple culling
+            if ((a.X < -1 && b.X < -1 && c.X < -1) || (a.X > 1 && b.X > 1 && c.X > 1))
+                return;
+            if ((a.Y < -1 && b.Y < -1 && c.Y < -1) || (a.Y > 1 && b.Y > 1 && c.Y > 1))
+                return;
+            if ((a.Z < -1 && b.Z < -1 && c.Z < -1) || (a.Z > 1 && b.Z > 1 && c.Z > 1))
+                return;
+
             int x1 = (int)Math.Round(a.X * screenSizeX / 2 + screenSizeX / 2);
             int x2 = (int)Math.Round(b.X * screenSizeX / 2 + screenSizeX / 2);
             int x3 = (int)Math.Round(c.X * screenSizeX / 2 + screenSizeX / 2);
