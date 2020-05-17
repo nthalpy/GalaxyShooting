@@ -37,12 +37,12 @@
             );
         }
 
-        public static Matrix4x4 CreateTranslateMatrix(Vector3 position, Camera cam)
+        public static Matrix4x4 CreateSizeTransformMatrix(double x, double y, double z)
         {
             return new Matrix4x4(
-                new Vector4(1, 0, 0, position.X - cam.Position.X),
-                new Vector4(0, 1, 0, position.Y - cam.Position.Y),
-                new Vector4(0, 0, 1, position.Z - cam.Position.Z),
+                new Vector4(x, 0, 0, 0),
+                new Vector4(0, y, 0, 0),
+                new Vector4(0, 0, z, 0),
                 new Vector4(0, 0, 0, 1)
             );
         }
