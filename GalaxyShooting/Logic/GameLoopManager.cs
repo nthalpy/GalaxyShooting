@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalaxyShooting.Rendering;
+using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace GalaxyShooting.Logic
@@ -9,12 +11,19 @@ namespace GalaxyShooting.Logic
 
         public static void Start(GameLoopBase gameLoop)
         {
+            int msInterval = 1000 / 60;
+
+            Stopwatch sw = new Stopwatch();
             currentGameLoop = gameLoop;
 
             while (true)
             {
+                sw.Restart();
                 Loop();
-                Thread.Sleep(TimeSpan.FromMilliseconds(1000 / 60));
+
+                int ms = (int)sw.ElapsedMilliseconds;
+                if (ms < msInterval)
+                    Thread.Sleep(msInterval - ms);
             }
         }
 
@@ -29,6 +38,7 @@ namespace GalaxyShooting.Logic
 
             loop.Update();
             loop.Render();
+            Screen.Flush();
         }
     }
 }
