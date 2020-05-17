@@ -38,16 +38,15 @@ namespace GalaxyShooting.Logic
 
         public override void Render(WireFrameRenderer renderer)
         {
-            Matrix4x4 modelMatrix = Matrix4x4.CreateTranslateMatrix(Position);
-
+            Matrix4x4 translateMatrix = Matrix4x4.CreateTranslateMatrix(Position);
             Matrix4x4 rotateMatrix = currentRotationMatrix;
 
             foreach (Triangle triangle in Cube.Tris)
             {
                 renderer.EnqueueTriangle(new Triangle(
-                    (modelMatrix * (rotateMatrix * triangle.A.ToXYZ1())).HomogeneousToXYZ(),
-                    (modelMatrix * (rotateMatrix * triangle.B.ToXYZ1())).HomogeneousToXYZ(),
-                    (modelMatrix * (rotateMatrix * triangle.C.ToXYZ1())).HomogeneousToXYZ()
+                    (translateMatrix * (rotateMatrix * triangle.A.ToXYZ1())).HomogeneousToXYZ(),
+                    (translateMatrix * (rotateMatrix * triangle.B.ToXYZ1())).HomogeneousToXYZ(),
+                    (translateMatrix * (rotateMatrix * triangle.C.ToXYZ1())).HomogeneousToXYZ()
                 ));
             }
         }

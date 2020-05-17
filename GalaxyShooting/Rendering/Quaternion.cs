@@ -17,6 +17,11 @@ namespace GalaxyShooting.Rendering
             W = w;
         }
 
+        public static Quaternion operator-(Quaternion q)
+        {
+            return new Quaternion(-q.X, -q.Y, -q.Z, q.W);
+        }
+
         public static Quaternion AxisAngle(Vector3 axis, double theta)
         {
             return new Quaternion(Math.Sin(theta / 2) * axis.X, Math.Sin(theta / 2) * axis.Y, Math.Sin(theta / 2) * axis.Z, Math.Cos(theta / 2));

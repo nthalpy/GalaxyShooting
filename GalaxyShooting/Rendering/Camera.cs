@@ -11,7 +11,8 @@ namespace GalaxyShooting.Rendering
         public Vector3 Position;
         public Quaternion Rotation;
 
-        public Matrix4x4 currentRotationMatrix;
+        private Matrix4x4 invRotationMatrix;
+        private Matrix4x4 currentRotationMatrix;
 
         private readonly double aspect;
         private readonly double verticalFOV;
@@ -27,17 +28,14 @@ namespace GalaxyShooting.Rendering
             this.zNear = zNear;
             this.zFar = zFar;
 
-            currentRotationMatrix = new Matrix4x4(
-                new Vector4(1, 0, 0, 0),
-                new Vector4(0, 1, 0, 0),
-                new Vector4(0, 0, 1, 0),
-                new Vector4(0, 0, 0, 1));
+            invRotationMatrix = Matrix4x4.Identity;
+            currentRotationMatrix = Matrix4x4.Identity;
         }
 
         /// <summary>
         /// World space의 점들을 NDC로 mapping하는 matrix를 생성하는 메서드
         /// </summary>
-        public Matrix4x4 GetMatrix()
+        public Matrix4x4 GetPerspectiveMatrix()
         {
             double tanHalf = Math.Tan(verticalFOV * Math.PI / 360);
             double zRange = zNear - zFar;
@@ -57,36 +55,37 @@ namespace GalaxyShooting.Rendering
             double pitch = 0;
             double roll = 0;
 
-            if (InputManager.IsPressed(VK.LEFT))
-                pitch += Math.PI / 120;
             if (InputManager.IsPressed(VK.RIGHT))
+                pitch += Math.PI / 120;
+            if (InputManager.IsPressed(VK.LEFT))
                 pitch -= Math.PI / 120;
-            if (InputManager.IsPressed(VK.KEY_J))
+            if (InputManager.IsPressed(VK.KEY_E))
                 yaw -= Math.PI / 120;
-            if (InputManager.IsPressed(VK.KEY_L))
+            if (InputManager.IsPressed(VK.KEY_Q))
                 yaw += Math.PI / 120;
-            if (InputManager.IsPressed(VK.DOWN))
-                roll -= Math.PI / 120;
             if (InputManager.IsPressed(VK.UP))
+                roll -= Math.PI / 120;
+            if (InputManager.IsPressed(VK.DOWN))
                 roll += Math.PI / 120;
-
-            //Debug.WriteLine(pitch);
 
             Quaternion rotX = Quaternion.AxisAngle(Vector3.Right, roll);
             Quaternion rotY = Quaternion.AxisAngle(Vector3.Up, pitch);
-            Quaternion rotZ = Quaternion.AxisAngle(Vector3.Backward, yaw);
+            Quaternion rotZ = Quaternion.AxisAngle(Vector3.Forward, yaw);
 
-            currentRotationMatrix = Matrix4x4.CreateRotationMatrix(rotY) * Matrix4x4.CreateRotationMatrix(rotX) * currentRotationMatrix;
+            currentRotationMatrix *= Matrix4x4.CreateRotationMatrix(rotZ) * Matrix4x4.CreateRotationMatrix(rotY) * Matrix4x4.CreateRotationMatrix(rotX);
+            invRotationMatrix = Matrix4x4.CreateRotationMatrix(-rotX) * Matrix4x4.CreateRotationMatrix(-rotY) * Matrix4x4.CreateRotationMatrix(-rotZ) * invRotationMatrix;
 
-            Vector4 direction4 = currentRotationMatrix * new Vector4(0, 0, -1, 1);
-            Vector3 direction = new Vector3(direction4.X * speed, direction4.Y * speed, -direction4.Z * speed);
+            Vector3 direction = (currentRotationMatrix * Vector3.Forward.ToXYZ1()).HomogeneousToXYZ();
 
-            if (InputManager.IsPressed(VK.KEY_Y))
+            if (InputManager.IsPressed(VK.KEY_W))
                 Position += direction;
-            if (InputManager.IsPressed(VK.KEY_H))
+            if (InputManager.IsPressed(VK.KEY_S))
                 Position -= direction;
+        }
 
-            //currentRotationMatrix *= rotMatrixChange;
+        public Matrix4x4 GetViewMatrix()
+        {
+            return invRotationMatrix * Matrix4x4.CreateTranslateMatrix(-Position);
         }
     }
 }
