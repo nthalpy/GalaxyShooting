@@ -11,7 +11,7 @@ namespace GalaxyShooting.Logic
 
         public GameTitleLoop()
         {
-            renderer = new ImageRenderer();
+            renderer = new ImageRenderer(Screen.ScreenSizeX, Screen.ScreenSizeY);
         }
 
         public override void Update()

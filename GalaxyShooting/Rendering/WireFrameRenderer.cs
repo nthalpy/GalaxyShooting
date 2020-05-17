@@ -7,29 +7,23 @@ namespace GalaxyShooting.Rendering
     /// <summary>
     /// Rendering을 담당해주는 객체
     /// </summary>
-    public sealed class WireFrameRenderer
+    public sealed class WireFrameRenderer : RendererBase
     {
-        private readonly int screenSizeX;
-        private readonly int screenSizeY;
-
         private readonly List<Triangle> triangleList;
 
         private PixelBuffer foregroundBuffer;
         private PixelBuffer backgroundBuffer;
-        private Char[,] screenCache;
 
         public WireFrameRenderer(int screenSizeX, int screenSizeY)
+            : base(screenSizeX, screenSizeY)
         {
             this.screenSizeX = screenSizeX;
             this.screenSizeY = screenSizeY;
 
             foregroundBuffer = new PixelBuffer(screenSizeX, screenSizeY);
             backgroundBuffer = new PixelBuffer(screenSizeX, screenSizeY);
-            screenCache = new Char[screenSizeX, screenSizeY];
 
             triangleList = new List<Triangle>();
-
-            Console.SetWindowSize(screenSizeX / 2 + 2, screenSizeY / 4 + 2);
         }
 
         public void EnqueueTriangle(Triangle triangle)
@@ -218,67 +212,13 @@ namespace GalaxyShooting.Rendering
         }
 
         /// <summary>
-        /// foreground의 내용물을 stdout에 update.
+        /// foreground의 내용물을 Screen에 update.
         /// </summary>
         private void UpdateScreen()
         {
-            const int xPerChar = 2;
-            const int yPerChar = 4;
-            const int BrailleBase = 0x2800;
-
-            for (int screenY = 0; screenY * yPerChar < screenSizeY; screenY++)
-            {
-                for (int screenX = 0; screenX * xPerChar < screenSizeX; screenX++)
-                {
-                    // braille:
-                    // 0 3
-                    // 1 4
-                    // 2 5
-                    // 6 7
-
-                    int chVal = BrailleBase;
-
-                    for (int dx = 0; dx < xPerChar; dx++)
-                    {
-                        int bufferX = screenX * xPerChar + dx;
-                        if (bufferX >= screenSizeX)
-                            break;
-
-                        for (int dy = 0; dy < yPerChar - 1; dy++)
-                        {
-                            int bufferY = screenY * yPerChar + dy;
-                            if (bufferY >= screenSizeY)
-                                break;
-
-                            if (foregroundBuffer.GetPixel(bufferX, bufferY) != ConsoleColor.Black)
-                                chVal += 1 << (3 * dx + dy);
-                        }
-
-                        {
-                            int bufferY = screenY * yPerChar + 3;
-                            if (bufferY >= screenSizeY)
-                                continue;
-
-                            if (foregroundBuffer.GetPixel(bufferX, bufferY) != ConsoleColor.Black)
-                                chVal += 1 << (6 + dx);
-                        }
-                    }
-
-                    Debug.Assert(0x2800 <= chVal && chVal <= 0x28FF);
-
-                    Char oldCh = screenCache[screenX, screenY];
-                    Char newCh = (Char)chVal;
-                    if (newCh != oldCh)
-                    {
-                        screenCache[screenX, screenY] = newCh;
-                        Console.SetCursorPosition(screenX, screenY);
-                        Console.Write(newCh);
-                    }
-                }
-            }
-
-            // caret이 screen 아래에 가도록
-            Console.SetCursorPosition(0, screenSizeY / yPerChar + 1);
+            for (int y = 0; y < screenSizeY; y++)
+                for (int x = 0; x < screenSizeX; x++)
+                    Screen.SetPixel(x, y, foregroundBuffer.GetPixel(x, y) == ConsoleColor.White);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaxyShooting.Rendering;
+using System;
 using System.Threading;
 
 namespace GalaxyShooting.Logic
@@ -29,6 +30,7 @@ namespace GalaxyShooting.Logic
 
             loop.Update();
             loop.Render();
+            Screen.Flush();
         }
     }
 }
