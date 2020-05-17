@@ -17,6 +17,8 @@ namespace GalaxyShooting.Logic
 
         private List<GameObjectBase> dead;
 
+        int score;
+
         public TestGameLoop()
         {
             camera = new Camera(2, 45, 0.1, 100);
@@ -27,9 +29,12 @@ namespace GalaxyShooting.Logic
 
             Random rd = new Random();
 
-            gunLauncher = new GunLauncher(2, camera);
+            score = 0;
+            iterTime = 0;
 
-            objects.Add(gunLauncher);
+            gunLauncher = new GunLauncher(1, camera);
+
+            //objects.Add(gunLauncher);
 
             for (int idx = 0; idx < 20; idx++)
             {
@@ -43,14 +48,16 @@ namespace GalaxyShooting.Logic
         public override void Update()
         {
             camera.Update();
+            gunLauncher.Update();
 
             foreach (GameObjectBase obj in objects)
             {
                 obj.Update();
                 if (obj.Collision(gunLauncher.bullets[0]))
                 {
-                    Debug.WriteLine("kill");
+                    //Debug.WriteLine("kill");
                     dead.Add(obj);
+                    score += obj.Score();
                 }
             }
             objects.RemoveAll(dead.Contains);
@@ -61,6 +68,7 @@ namespace GalaxyShooting.Logic
         {
             wireframeRenderer.ClearBuffer();
 
+            gunLauncher.Render(wireframeRenderer);
             foreach (GameObjectBase obj in objects)
                 obj.Render(wireframeRenderer);
 

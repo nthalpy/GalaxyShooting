@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace GalaxyShooting.Logic
 {
-    public class Bullet : GameObjectBase
+    public class Bullet
     {
         public Vector3 Position;
         Vector3 direction;
         Vector3 PositionBias;
-        double speed = 0.5;
+        double speed = 0.8;
 
         private int timeSpan;
         private readonly int maxTimeSpan = 40;
@@ -39,8 +39,8 @@ namespace GalaxyShooting.Logic
 
         public void start(Camera camera)
         {
-            Position = camera.Position;
             direction = camera.direction;
+            Position = camera.Position + direction * 0.5;
             rot = Quaternion.AxisAngle(direction, Math.PI / 30);
             RotationMatrix = camera.currentRotationMatrix;
             //RotationMatrix = Matrix4x4.Identity;
@@ -49,7 +49,7 @@ namespace GalaxyShooting.Logic
             activated = true;
         }
 
-        public override void Update()
+        public void Update()
         {
             if (!activated)
                 return;
@@ -65,12 +65,7 @@ namespace GalaxyShooting.Logic
             }
         }
 
-        public override bool Collision(Bullet obj)
-        {
-            return false;
-        }
-
-        public override void Render(WireFrameRenderer renderer)
+        public void Render(WireFrameRenderer renderer)
         {
             Matrix4x4 translateMatrix = Matrix4x4.CreateTranslateMatrix(Position + PositionBias);
 

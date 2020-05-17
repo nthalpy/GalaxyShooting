@@ -32,6 +32,11 @@ namespace GalaxyShooting.Logic
             sizeMatrix = Matrix4x4.CreateSizeTransformMatrix(xSize, ySize, zSize);
         }
 
+        public override int Score()
+        {
+            return (int)(xSize * ySize * zSize * 10);
+        }
+
         public override void Update()
         {
             if (frameCount % 100 == 0)

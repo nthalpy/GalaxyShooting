@@ -9,7 +9,7 @@ using GalaxyShooting.Rendering;
 
 namespace GalaxyShooting.Logic
 {
-    public sealed class GunLauncher : GameObjectBase
+    public sealed class GunLauncher
     {
 
         public List<Bullet> bullets;
@@ -35,7 +35,7 @@ namespace GalaxyShooting.Logic
             camera = cam;
         }
 
-        public override void Update()
+        public void Update()
         {
             if (InputManager.IsPressed(VK.SPACE))
             {
@@ -58,12 +58,7 @@ namespace GalaxyShooting.Logic
             }
         }
 
-        public override bool Collision(Bullet bullet)
-        {
-            return false;
-        }
-
-        public override void Render(WireFrameRenderer renderer)
+        public void Render(WireFrameRenderer renderer)
         {
             foreach (Bullet bullet in bullets)
             {
