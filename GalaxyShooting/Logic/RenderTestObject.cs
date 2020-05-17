@@ -45,6 +45,15 @@ namespace GalaxyShooting.Logic
             frameCount++;
         }
 
+        public override bool Collision(Bullet bullet)
+        {
+            double dist = (Position - bullet.Position).Length();
+            if (dist < (xSize + ySize + zSize) / 3)
+                return true;
+            else
+                return false;
+        }
+
         public override void Render(WireFrameRenderer renderer)
         {
             Matrix4x4 translateMatrix = Matrix4x4.CreateTranslateMatrix(Position);

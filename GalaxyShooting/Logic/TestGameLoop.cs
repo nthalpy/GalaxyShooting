@@ -1,6 +1,7 @@
 ﻿using GalaxyShooting.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GalaxyShooting.Logic
 {
@@ -14,12 +15,15 @@ namespace GalaxyShooting.Logic
 
         private readonly GunLauncher gunLauncher;
 
+        private List<GameObjectBase> dead;
+
         public TestGameLoop()
         {
             camera = new Camera(2, 45, 0.1, 100);
             wireframeRenderer = new WireFrameRenderer(Screen.ScreenSizeX, Screen.ScreenSizeY);
             crosshairRenderer = new CrosshairRenderer(Screen.ScreenSizeX, Screen.ScreenSizeY);
             objects = new List<GameObjectBase>();
+            dead = new List<GameObjectBase>();
 
             Random rd = new Random();
 
@@ -41,7 +45,16 @@ namespace GalaxyShooting.Logic
             camera.Update();
 
             foreach (GameObjectBase obj in objects)
+            {
                 obj.Update();
+                if (obj.Collision(gunLauncher.bullets[0]))
+                {
+                    Debug.WriteLine("kill");
+                    dead.Add(obj);
+                }
+            }
+            objects.RemoveAll(dead.Contains);
+            dead.Clear();
         }
 
         public override void Render()

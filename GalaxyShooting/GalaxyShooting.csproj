@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\Bullet.cs" />
     <Compile Include="Logic\GameLoopBase.cs" />
     <Compile Include="Logic\GameLoopManager.cs" />
     <Compile Include="Logic\GameObjectBase.cs" />
