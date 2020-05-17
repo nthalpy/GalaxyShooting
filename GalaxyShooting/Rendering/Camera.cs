@@ -72,9 +72,9 @@ namespace GalaxyShooting.Rendering
 
             //Debug.WriteLine(pitch);
 
-            Quaternion rotX = Quaternion.AxisAngle(new Vector3(1, 0, 0), roll);
-            Quaternion rotY = Quaternion.AxisAngle(new Vector3(0, 1, 0), pitch);
-            Quaternion rotZ = Quaternion.AxisAngle(new Vector3(0, 0, 1), yaw);
+            Quaternion rotX = Quaternion.AxisAngle(Vector3.Right, roll);
+            Quaternion rotY = Quaternion.AxisAngle(Vector3.Up, pitch);
+            Quaternion rotZ = Quaternion.AxisAngle(Vector3.Backward, yaw);
 
             currentRotationMatrix = Matrix4x4.CreateRotationMatrix(rotY) * Matrix4x4.CreateRotationMatrix(rotX) * currentRotationMatrix;
 

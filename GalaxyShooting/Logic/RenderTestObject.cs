@@ -19,12 +19,7 @@ namespace GalaxyShooting.Logic
 
         public RenderTestObject()
         {
-            currentRotationMatrix = new Matrix4x4(
-                new Vector4(1, 0, 0, 0),
-                new Vector4(0, 1, 0, 0),
-                new Vector4(0, 0, 1, 0),
-                new Vector4(0, 0, 0, 1));
-
+            currentRotationMatrix = Matrix4x4.Identity;
             rd = new Random(this.GetHashCode());
         }
 

@@ -2,6 +2,13 @@
 {
     public struct Matrix4x4
     {
+        public static Matrix4x4 Identity = new Matrix4x4(
+            new Vector4(1, 0, 0, 0),
+            new Vector4(0, 1, 0, 0),
+            new Vector4(0, 0, 1, 0),
+            new Vector4(0, 0, 0, 1)
+        );
+
         public Vector4 Row0;
         public Vector4 Row1;
         public Vector4 Row2;
