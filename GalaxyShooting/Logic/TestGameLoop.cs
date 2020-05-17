@@ -7,7 +7,8 @@ namespace GalaxyShooting.Logic
     public sealed class TestGameLoop : GameLoopBase
     {
         private readonly Camera camera;
-        private readonly WireFrameRenderer renderer;
+        private readonly WireFrameRenderer wireframeRenderer;
+        private readonly CrosshairRenderer crosshairRenderer;
 
         private readonly List<GameObjectBase> objects;
 
@@ -16,7 +17,8 @@ namespace GalaxyShooting.Logic
         public TestGameLoop()
         {
             camera = new Camera(2, 45, 0.1, 100);
-            renderer = new WireFrameRenderer(320, 160);
+            wireframeRenderer = new WireFrameRenderer(Screen.ScreenSizeX, Screen.ScreenSizeY);
+            crosshairRenderer = new CrosshairRenderer(Screen.ScreenSizeX, Screen.ScreenSizeY);
             objects = new List<GameObjectBase>();
 
             Random rd = new Random();
@@ -44,14 +46,16 @@ namespace GalaxyShooting.Logic
 
         public override void Render()
         {
-            renderer.ClearBuffer();
+            wireframeRenderer.ClearBuffer();
 
             foreach (GameObjectBase obj in objects)
-                obj.Render(renderer);
+                obj.Render(wireframeRenderer);
 
-            renderer.RenderToBuffer(camera);
+            wireframeRenderer.RenderToBuffer(camera);
 
-            renderer.SwapBuffer();
+            wireframeRenderer.SwapBuffer();
+
+            crosshairRenderer.Render();
         }
     }
 }
