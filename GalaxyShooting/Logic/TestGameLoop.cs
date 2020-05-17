@@ -1,7 +1,6 @@
 ﻿using GalaxyShooting.Rendering;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace GalaxyShooting.Logic
 {
@@ -10,6 +9,7 @@ namespace GalaxyShooting.Logic
         private readonly Camera camera;
         private readonly WireFrameRenderer wireframeRenderer;
         private readonly CrosshairRenderer crosshairRenderer;
+        private readonly TextRenderer textRenderer;
 
         private readonly List<GameObjectBase> objects;
 
@@ -24,13 +24,13 @@ namespace GalaxyShooting.Logic
             camera = new Camera(2, 45, 0.1, 100);
             wireframeRenderer = new WireFrameRenderer(Screen.ScreenSizeX, Screen.ScreenSizeY);
             crosshairRenderer = new CrosshairRenderer(Screen.ScreenSizeX, Screen.ScreenSizeY);
+            textRenderer = new TextRenderer(Screen.ScreenSizeX, Screen.ScreenSizeY);
             objects = new List<GameObjectBase>();
             dead = new List<GameObjectBase>();
 
             Random rd = new Random();
 
             score = 0;
-            iterTime = 0;
 
             gunLauncher = new GunLauncher(1, camera);
 
@@ -77,6 +77,8 @@ namespace GalaxyShooting.Logic
             wireframeRenderer.SwapBuffer();
 
             crosshairRenderer.Render();
+
+            textRenderer.RenderText("Score: " + score, 0, 0);
         }
     }
 }

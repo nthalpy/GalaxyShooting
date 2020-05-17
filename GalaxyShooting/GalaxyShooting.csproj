@@ -67,6 +67,7 @@
     <Compile Include="Rendering\Quaternion.cs" />
     <Compile Include="Rendering\RendererBase.cs" />
     <Compile Include="Rendering\Screen.cs" />
+    <Compile Include="Rendering\TextRenderer.cs" />
     <Compile Include="Rendering\Triangle.cs" />
     <Compile Include="Rendering\Vector2.cs" />
     <Compile Include="Rendering\WireFrameRenderer.cs" />
@@ -77,6 +78,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\font.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\title.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
