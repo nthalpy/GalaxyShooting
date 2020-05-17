@@ -21,11 +21,11 @@ namespace GalaxyShooting.Logic
 
             Random rd = new Random();
 
-            gunLauncher = new GunLauncher(1, camera);
+            gunLauncher = new GunLauncher(2, camera);
 
             objects.Add(gunLauncher);
 
-            for (int idx = 0; idx < 100; idx++)
+            for (int idx = 0; idx < 20; idx++)
             {
                 RenderTestObject obj = new RenderTestObject();
                 obj.Position = new Vector3(50 * (2 * rd.NextDouble() - 1), 50 * (2 * rd.NextDouble() - 1), 50 * (2 * rd.NextDouble() - 1));

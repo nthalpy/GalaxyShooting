@@ -13,7 +13,7 @@ namespace GalaxyShooting.Rendering
         public Vector3 direction;
 
         private Matrix4x4 invRotationMatrix;
-        private Matrix4x4 currentRotationMatrix;
+        public Matrix4x4 currentRotationMatrix;
 
         private readonly double aspect;
         private readonly double verticalFOV;
@@ -28,6 +28,8 @@ namespace GalaxyShooting.Rendering
             this.verticalFOV = verticalFOV;
             this.zNear = zNear;
             this.zFar = zFar;
+
+            Position = new Vector3(0, 0, 0);
 
             invRotationMatrix = Matrix4x4.Identity;
             currentRotationMatrix = Matrix4x4.Identity;
@@ -76,7 +78,7 @@ namespace GalaxyShooting.Rendering
             currentRotationMatrix *= Matrix4x4.CreateRotationMatrix(rotZ) * Matrix4x4.CreateRotationMatrix(rotY) * Matrix4x4.CreateRotationMatrix(rotX);
             invRotationMatrix = Matrix4x4.CreateRotationMatrix(-rotX) * Matrix4x4.CreateRotationMatrix(-rotY) * Matrix4x4.CreateRotationMatrix(-rotZ) * invRotationMatrix;
 
-            Vector3 direction = (currentRotationMatrix * Vector3.Forward.ToXYZ1()).HomogeneousToXYZ();
+            direction = (currentRotationMatrix * Vector3.Forward.ToXYZ1()).HomogeneousToXYZ();
 
             if (InputManager.IsPressed(VK.KEY_W))
                 Position += direction;

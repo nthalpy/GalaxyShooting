@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using GalaxyShooting.Input;
 using GalaxyShooting.Model;
@@ -10,33 +11,43 @@ namespace GalaxyShooting.Logic
 {
     public sealed class GunLauncher : GameObjectBase
     {
-
         public class Bullet
         {
             Vector3 Position;
             Vector3 direction;
-            double speed;
+            Vector3 PositionBias;
+            double speed = 0.5;
 
             private int timeSpan;
-            private readonly int maxTimeSpan = 100;
+            private readonly int maxTimeSpan = 40;
 
             private Quaternion rot;
             private Matrix4x4 RotationMatrix;
 
             public bool activated;
 
-            public Bullet()
+            public Bullet(Vector3 pos)
             {
                 //rot = Quaternion.AxisAngle(direction, 0);
                 activated = false;
+                RotationMatrix = Matrix4x4.Identity;
+                PositionBias = pos;
+            }
+
+            public Bullet()
+            {
+                activated = false;
+                RotationMatrix = Matrix4x4.Identity;
             }
 
             public void start(Camera camera)
             {
                 Position = camera.Position;
                 direction = camera.direction;
-                rot = Quaternion.AxisAngle(direction, 0);
-                RotationMatrix = Matrix4x4.CreateRotationMatrix(rot);
+                rot = Quaternion.AxisAngle(direction, Math.PI / 30);
+                RotationMatrix = camera.currentRotationMatrix;
+                //RotationMatrix = Matrix4x4.Identity;
+
                 timeSpan = 0;
                 activated = true;
             }
@@ -48,6 +59,8 @@ namespace GalaxyShooting.Logic
 
                 Position += direction * speed;
 
+                //RotationMatrix *= Matrix4x4.CreateRotationMatrix(rot);
+
                 timeSpan++;
                 if (timeSpan >= maxTimeSpan)
                 {
@@ -57,14 +70,14 @@ namespace GalaxyShooting.Logic
 
             public void Render(WireFrameRenderer renderer)
             {
-                Matrix4x4 modelMatrix = Matrix4x4.CreateTranslateMatrix(Position);
+                Matrix4x4 translateMatrix = Matrix4x4.CreateTranslateMatrix(Position+PositionBias);
 
                 foreach (Triangle triangle in BulletModel.Tris)
                 {
                     renderer.EnqueueTriangle(new Triangle(
-                        (modelMatrix * (RotationMatrix * triangle.A.ToXYZ1())).HomogeneousToXYZ(),
-                        (modelMatrix * (RotationMatrix * triangle.A.ToXYZ1())).HomogeneousToXYZ(),
-                        (modelMatrix * (RotationMatrix * triangle.A.ToXYZ1())).HomogeneousToXYZ()
+                        (translateMatrix * (RotationMatrix * triangle.A.ToXYZ1())).HomogeneousToXYZ(),
+                        (translateMatrix * (RotationMatrix * triangle.B.ToXYZ1())).HomogeneousToXYZ(),
+                        (translateMatrix * (RotationMatrix * triangle.C.ToXYZ1())).HomogeneousToXYZ()
                     ));
                 }
             }
@@ -80,6 +93,13 @@ namespace GalaxyShooting.Logic
             bullets = new List<Bullet>();
             for (int i = 0; i < maxBullet; i++)
             {
+                /*
+                Bullet b;
+                if (i % 2 == 0)
+                    b = new Bullet(new Vector3(0.2, 0, 0));
+                else
+                    b = new Bullet(new Vector3(-0.2, 0, 0));
+                */
                 Bullet b = new Bullet();
                 bullets.Add(b);
             }
