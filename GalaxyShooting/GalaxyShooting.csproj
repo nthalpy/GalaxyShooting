@@ -49,9 +49,11 @@
     <Compile Include="Logic\GameObjectBase.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Logic\GameTitleLoop.cs" />
+    <Compile Include="Logic\GunLauncher.cs" />
     <Compile Include="Logic\RenderTestObject.cs" />
     <Compile Include="Logic\TestGameLoop.cs" />
     <Compile Include="Input\VK.cs" />
+    <Compile Include="Model\BulletModel.cs" />
     <Compile Include="Model\Cube.cs" />
     <Compile Include="Model\TestPlane.cs" />
     <Compile Include="Program.cs" />

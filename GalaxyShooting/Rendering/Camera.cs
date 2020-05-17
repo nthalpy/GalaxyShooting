@@ -10,6 +10,7 @@ namespace GalaxyShooting.Rendering
     {
         public Vector3 Position;
         public Quaternion Rotation;
+        public Vector3 direction;
 
         private Matrix4x4 invRotationMatrix;
         private Matrix4x4 currentRotationMatrix;
