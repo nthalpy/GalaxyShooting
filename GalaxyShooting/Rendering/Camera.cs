@@ -10,6 +10,7 @@ namespace GalaxyShooting.Rendering
     {
         public Vector3 Position;
         public Quaternion Rotation;
+        public Vector3 direction;
 
         public Matrix4x4 currentRotationMatrix;
 
@@ -79,12 +80,12 @@ namespace GalaxyShooting.Rendering
             currentRotationMatrix = Matrix4x4.CreateRotationMatrix(rotY) * Matrix4x4.CreateRotationMatrix(rotX) * currentRotationMatrix;
 
             Vector4 direction4 = currentRotationMatrix * new Vector4(0, 0, -1, 1);
-            Vector3 direction = new Vector3(direction4.X * speed, direction4.Y * speed, -direction4.Z * speed);
+            direction = new Vector3(direction4.X, direction4.Y, -direction4.Z);
 
             if (InputManager.IsPressed(VK.KEY_Y))
-                Position += direction;
+                Position += direction * speed;
             if (InputManager.IsPressed(VK.KEY_H))
-                Position -= direction;
+                Position -= direction * speed;
 
             //currentRotationMatrix *= rotMatrixChange;
         }

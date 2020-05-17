@@ -51,5 +51,12 @@ namespace GalaxyShooting.Rendering
                 lhs.Y - rhs.Y,
                 lhs.Z - rhs.Z);
         }
+        public static Vector3 operator *(Vector3 vector, double coeff)
+        {
+            return new Vector3(
+                vector.X * coeff,
+                vector.Y * coeff,
+                vector.Z * coeff);
+        }
     }
 }

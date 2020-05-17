@@ -11,6 +11,8 @@ namespace GalaxyShooting.Logic
 
         private readonly List<GameObjectBase> objects;
 
+        private readonly GunLauncher gunLauncher;
+
         public TestGameLoop()
         {
             camera = new Camera(2, 45, 0.1, 100);
@@ -18,6 +20,10 @@ namespace GalaxyShooting.Logic
             objects = new List<GameObjectBase>();
 
             Random rd = new Random();
+
+            gunLauncher = new GunLauncher(1, camera);
+
+            objects.Add(gunLauncher);
 
             for (int idx = 0; idx < 20; idx++)
             {
