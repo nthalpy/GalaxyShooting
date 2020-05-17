@@ -1,4 +1,6 @@
 ﻿using GalaxyShooting.Rendering;
+using GalaxyShooting.Input;
+using System;
 
 namespace GalaxyShooting.Logic
 {
@@ -9,14 +11,20 @@ namespace GalaxyShooting.Logic
         const int blinkFrameInterval = 50;
         private int frameCount;
 
+        private bool end;
+
         public GameTitleLoop()
         {
             renderer = new ImageRenderer(Screen.ScreenSizeX, Screen.ScreenSizeY);
+            end = false;
         }
 
         public override void Update()
         {
-            // TODO: add logic which move loop to in-game loop
+            if (InputManager.IsPressed(VK.KEY_G))
+            {
+                end = true;
+            }
         }
         public override void Render()
         {
@@ -26,6 +34,13 @@ namespace GalaxyShooting.Logic
                 renderer.RenderImage("Resources/title2.png");
 
             frameCount++;
+        }
+
+        //private void KeyDown(object sender, keypre)
+
+        public override bool End()
+        {
+            return end;
         }
     }
 }

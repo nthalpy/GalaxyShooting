@@ -81,9 +81,9 @@ namespace GalaxyShooting.Rendering
             direction = (currentRotationMatrix * Vector3.Forward.ToXYZ1()).HomogeneousToXYZ();
 
             if (InputManager.IsPressed(VK.KEY_W))
-                Position += direction;
+                Position += direction * speed;
             if (InputManager.IsPressed(VK.KEY_S))
-                Position -= direction;
+                Position -= direction * speed;
         }
 
         public Matrix4x4 GetViewMatrix()

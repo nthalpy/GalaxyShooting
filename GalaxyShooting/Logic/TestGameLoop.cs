@@ -80,5 +80,10 @@ namespace GalaxyShooting.Logic
 
             textRenderer.RenderText("Score: " + score, 0, 0);
         }
+
+        public override bool End()
+        {
+            return false;
+        }
     }
 }

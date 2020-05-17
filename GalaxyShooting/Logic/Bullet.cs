@@ -1,10 +1,6 @@
 ﻿using System;
 using GalaxyShooting.Rendering;
 using GalaxyShooting.Model;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GalaxyShooting.Logic
 {

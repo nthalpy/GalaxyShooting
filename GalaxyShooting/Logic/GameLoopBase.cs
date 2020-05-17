@@ -4,5 +4,6 @@
     {
         public abstract void Update();
         public abstract void Render();
+        public abstract bool End();
     }
 }

@@ -20,6 +20,9 @@ namespace GalaxyShooting.Logic
                 sw.Restart();
                 Loop();
 
+                if (currentGameLoop.End())
+                    break;
+
                 int ms = (int)sw.ElapsedMilliseconds;
                 if (ms < msInterval)
                     Thread.Sleep(msInterval - ms);

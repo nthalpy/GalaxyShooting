@@ -53,7 +53,7 @@ namespace GalaxyShooting.Logic
         public override bool Collision(Bullet bullet)
         {
             double dist = (Position - bullet.Position).Length();
-            if (dist < (xSize + ySize + zSize) / 3)
+            if (dist < (xSize + ySize + zSize) / 1.5)
                 return true;
             else
                 return false;

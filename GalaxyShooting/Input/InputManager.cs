@@ -12,5 +12,16 @@ namespace GalaxyShooting.Input
         {
             return (GetAsyncKeyState(key) & 0x8000) != 0;
         }
+        /*
+        public static bool AnyKey()
+        {
+            bool x = false;
+            foreach (VK key in Enum.GetNames(typeof(VK)))
+            {
+                x |= (GetAsyncKeyState(key) & 0x8000) != 0;
+            }
+            return x;
+        }
+        */
     }
 }

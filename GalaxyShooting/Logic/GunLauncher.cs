@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing.Drawing2D;
+﻿using System.Collections.Generic;
 using GalaxyShooting.Input;
-using GalaxyShooting.Model;
 using GalaxyShooting.Rendering;
 
 namespace GalaxyShooting.Logic
