@@ -25,7 +25,7 @@ namespace GalaxyShooting.Logic
 
             objects.Add(gunLauncher);
 
-            for (int idx = 0; idx < 20; idx++)
+            for (int idx = 0; idx < 100; idx++)
             {
                 RenderTestObject obj = new RenderTestObject();
                 obj.Position = new Vector3(50 * (2 * rd.NextDouble() - 1), 50 * (2 * rd.NextDouble() - 1), 50 * (2 * rd.NextDouble() - 1));
